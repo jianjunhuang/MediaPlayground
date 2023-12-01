@@ -1,2 +1,2 @@
 include ':app', ':android-kotlin-base'
-rootProject.name = "VideoEditor"
+rootProject.name = "MediaPlayground"
