@@ -6,7 +6,7 @@ import androidx.appcompat.widget.AppCompatButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import xyz.juncat.media.LogActivity
+import xyz.juncat.media.base.LogActivity
 import xyz.juncat.media.record.ssrc.SSRC
 import java.io.File
 import java.io.FileInputStream

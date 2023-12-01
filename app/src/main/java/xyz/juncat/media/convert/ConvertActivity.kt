@@ -30,7 +30,7 @@ import kotlinx.coroutines.withContext
 import net.ypresto.androidtranscoder.format.MediaFormatExtraConstants
 import net.ypresto.androidtranscoder.format.MediaFormatStrategy
 import xyz.juncat.media.R
-import xyz.juncat.media.Utils
+import xyz.juncat.media.base.Utils
 import java.io.File
 
 

@@ -1,10 +1,10 @@
-package xyz.juncat.media.record
+package xyz.juncat.media.record.screen
 
 import android.media.MediaRecorder
 import android.media.projection.MediaProjection
 import android.util.Log
 import android.view.Surface
-import xyz.juncat.media.record.RecordActivity.Companion.TAG
+import xyz.juncat.media.record.screen.RecordActivity.Companion.TAG
 
 class MyMediaRecorder() : RecordActivity.IRecorder {
         private var mediaRecorder: MediaRecorder? = null

@@ -1,4 +1,4 @@
-package xyz.juncat.media.record
+package xyz.juncat.media.record.screen
 
 import android.media.MediaCodec
 import android.media.MediaCodecInfo
@@ -7,7 +7,7 @@ import android.media.MediaMuxer
 import android.media.projection.MediaProjection
 import android.util.Log
 import android.view.Surface
-import xyz.juncat.media.record.RecordActivity.Companion.TAG
+import xyz.juncat.media.record.screen.RecordActivity.Companion.TAG
 
 class MediaCodecRecorder : RecordActivity.IRecorder {
         private var muxerStarted = false

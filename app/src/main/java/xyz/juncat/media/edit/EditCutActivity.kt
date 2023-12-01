@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import xyz.juncat.media.SimplePlayer
-import xyz.juncat.media.Utils
+import xyz.juncat.media.base.Utils
 import xyz.juncat.media.databinding.ActivityMp4EditBinding
 import java.io.File
 

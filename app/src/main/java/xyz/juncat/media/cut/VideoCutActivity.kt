@@ -43,7 +43,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
-import xyz.juncat.media.Utils
+import xyz.juncat.media.base.Utils
 import java.io.File
 
 class VideoCutActivity : AppCompatActivity() {

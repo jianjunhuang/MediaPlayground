@@ -1,4 +1,4 @@
-package xyz.juncat.media
+package xyz.juncat.media.base
 
 import android.graphics.Color
 import android.net.Uri

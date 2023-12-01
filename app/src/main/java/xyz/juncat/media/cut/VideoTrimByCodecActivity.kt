@@ -5,8 +5,8 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import xyz.juncat.media.LogActivity
-import xyz.juncat.media.Utils
+import xyz.juncat.media.base.LogActivity
+import xyz.juncat.media.base.Utils
 import java.io.File
 
 

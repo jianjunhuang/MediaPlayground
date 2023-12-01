@@ -1,11 +1,11 @@
-package xyz.juncat.media.record
+package xyz.juncat.media.record.screen
 
 import android.media.*
 import android.media.projection.MediaProjection
 import android.os.Bundle
 import android.util.Log
 import android.view.Surface
-import xyz.juncat.media.record.RecordActivity.Companion.TAG
+import xyz.juncat.media.record.screen.RecordActivity.Companion.TAG
 import java.io.File
 import java.io.FileOutputStream
 import java.io.RandomAccessFile

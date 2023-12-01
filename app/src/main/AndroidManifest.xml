@@ -34,7 +34,7 @@
         <activity android:name="xyz.juncat.media.m3u.M3UActivity" />
         <activity android:name="xyz.juncat.media.m3u.MP4ToM3UActivity" />
         <activity android:name="xyz.juncat.media.edit.EditCutActivity" />
-        <activity android:name="xyz.juncat.media.record.RecordActivity" />
+        <activity android:name="xyz.juncat.media.record.screen.RecordActivity" />
         <activity android:name="xyz.juncat.media.convert.ConvertActivity" />
         <activity android:name="xyz.juncat.media.cut.VideoCutActivity" />
         <activity android:name="xyz.juncat.media.cut.VideoTrimByCodecActivity" />
@@ -42,9 +42,10 @@
         <activity android:name="xyz.juncat.media.ffmpeg.FFmpegTestPlayGroundActivity" />
         <activity android:name="xyz.juncat.media.record.SSRCActivity" />
         <activity android:name="xyz.juncat.media.record.AACTestActivity" />
+        <activity android:name="xyz.juncat.media.record.screen.RecordActivity2" />
 
         <service
-            android:name="xyz.juncat.media.record.RecordActivity$ProjectionService"
+            android:name="xyz.juncat.media.record.screen.RecordActivity$ProjectionService"
             android:exported="true"
             android:enabled="true"
             android:foregroundServiceType="mediaProjection" />

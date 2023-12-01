@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import xyz.juncat.media.LogActivity
+import xyz.juncat.media.base.LogActivity
 
 open class AACTestActivity : LogActivity() {
 

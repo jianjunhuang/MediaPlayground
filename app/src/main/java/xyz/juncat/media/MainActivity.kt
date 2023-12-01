@@ -18,8 +18,9 @@ import xyz.juncat.media.m3u.M3UActivity
 import xyz.juncat.media.m3u.MP4ToM3UActivity
 import xyz.juncat.media.record.AACTestActivity
 import xyz.juncat.media.record.AudioRecordActivity
-import xyz.juncat.media.record.RecordActivity
+import xyz.juncat.media.record.screen.RecordActivity
 import xyz.juncat.media.record.SSRCActivity
+import xyz.juncat.media.record.screen.RecordActivity2
 import xyz.juncat.media.videolist.VideoListActivity
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         R.id.btn_ssrc to SSRCActivity::class.java,
         R.id.btn_aac_test to AACTestActivity::class.java,
         R.id.btn_mediacodec_cut to VideoTrimByCodecActivity::class.java,
+        R.id.btn_record_2 to RecordActivity2::class.java,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
