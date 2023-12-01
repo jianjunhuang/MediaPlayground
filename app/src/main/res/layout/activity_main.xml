@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".MainActivity">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_extract_music"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="extract music" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_extract_frames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="extract bitmap" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_video_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="video list" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ijk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ijk player" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_m3u"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="m3u" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_mp4_to_m3u"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="mp4 -> m3u" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_mp4_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="mp4 edit" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="record" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_convert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="convert" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_video_cut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="video cut" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_audio_record"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="audio record" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ffmpeg_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ffmpeg test" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ssrc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SSRC test" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_aac_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AAC test" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_mediacodec_cut"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="mediacodec cut" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

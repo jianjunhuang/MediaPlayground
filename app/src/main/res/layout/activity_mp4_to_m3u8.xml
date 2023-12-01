@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextureView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cover"
+        app:layout_constraintEnd_toStartOf="@id/btn_cover_fast"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/video_view" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_cover_fast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="cover fast"
+        app:layout_constraintEnd_toStartOf="@id/btn_m3u_2_mp4"
+        app:layout_constraintStart_toEndOf="@id/btn_cover"
+        app:layout_constraintTop_toBottomOf="@id/video_view" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_m3u_2_mp4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="m3u-mp4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_cover_fast"
+        app:layout_constraintTop_toBottomOf="@id/video_view" />
+
+    <ScrollView
+        android:id="@+id/sl_common"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sl_fast"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_cover">
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+    <ScrollView
+        android:id="@+id/sl_fast"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sl_common"
+        app:layout_constraintTop_toBottomOf="@id/btn_cover">
+
+        <TextView
+            android:id="@+id/tv_fast_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

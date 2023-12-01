@@ -1,0 +1,3 @@
+[submodule "android-kotlin-base"]
+	path = android-kotlin-base
+	url = git@github.com:jianjunhuang/android-kotlin-base.git

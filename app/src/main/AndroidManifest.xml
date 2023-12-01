@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="xyz.juncat.media">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application
+        android:name="xyz.juncat.media.App"
+        android:allowBackup="true"
+        android:allowNativeHeapPointerTagging="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VideoEditor"
+        android:usesCleartextTraffic="true">
+        <activity android:name="xyz.juncat.media.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="xyz.juncat.media.MusicExtractorActivity" />
+        <activity android:name="xyz.juncat.media.frames.FramesExtractActivity" />
+        <activity android:name="xyz.juncat.media.videolist.VideoListActivity" />
+        <activity android:name="xyz.juncat.media.ijk.IjkPlayActivity" />
+        <activity android:name="xyz.juncat.media.m3u.M3UActivity" />
+        <activity android:name="xyz.juncat.media.m3u.MP4ToM3UActivity" />
+        <activity android:name="xyz.juncat.media.edit.EditCutActivity" />
+        <activity android:name="xyz.juncat.media.record.RecordActivity" />
+        <activity android:name="xyz.juncat.media.convert.ConvertActivity" />
+        <activity android:name="xyz.juncat.media.cut.VideoCutActivity" />
+        <activity android:name="xyz.juncat.media.cut.VideoTrimByCodecActivity" />
+        <activity android:name="xyz.juncat.media.record.AudioRecordActivity" />
+        <activity android:name="xyz.juncat.media.ffmpeg.FFmpegTestPlayGroundActivity" />
+        <activity android:name="xyz.juncat.media.record.SSRCActivity" />
+        <activity android:name="xyz.juncat.media.record.AACTestActivity" />
+
+        <service
+            android:name="xyz.juncat.media.record.RecordActivity$ProjectionService"
+            android:exported="true"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection" />
+    </application>
+
+</manifest>
