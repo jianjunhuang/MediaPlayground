@@ -1,4 +1,4 @@
-# Video Editor Demo
+# MediaPlayground
 
 ## [Extract Music from Mp4](/app/src/main/java/xyz/juncat/media/MusicExtractorActivity.kt)
 
