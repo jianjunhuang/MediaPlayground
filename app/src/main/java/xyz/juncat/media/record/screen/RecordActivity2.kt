@@ -1,13 +1,13 @@
 package xyz.juncat.media.record.screen
 
+import android.graphics.Typeface
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.GridLayout
-import android.widget.Spinner
 import android.widget.ToggleButton
+import androidx.appcompat.widget.AppCompatTextView
 import xyz.juncat.media.base.LogActivity
 import xyz.juncat.media.base.widget.LabelEditText
 import xyz.juncat.media.base.widget.LabelSpinner
@@ -98,10 +98,18 @@ class RecordActivity2 : LogActivity() {
 
             }
         }
+
+        val videoConfigTitle = AppCompatTextView(this).apply {
+            text = "Video Config"
+            setTypeface(Typeface.DEFAULT_BOLD)
+        }
         frameLayout.addView(
             GridLayout(this).apply {
                 columnCount = 2
                 orientation = GridLayout.HORIZONTAL
+                addView(videoConfigTitle, GridLayout.LayoutParams().apply {
+                    columnSpec = GridLayout.spec(0, 1f)
+                })
                 addView(widthEdt, GridLayout.LayoutParams().apply {
                     columnSpec = GridLayout.spec(0, 1f)
                 })
