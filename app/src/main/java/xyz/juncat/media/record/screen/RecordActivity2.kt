@@ -10,6 +10,7 @@ import android.widget.Spinner
 import android.widget.ToggleButton
 import xyz.juncat.media.base.LogActivity
 import xyz.juncat.media.base.widget.LabelEditText
+import xyz.juncat.media.base.widget.LabelSpinner
 
 class RecordActivity2 : LogActivity() {
     override fun initActionView(frameLayout: FrameLayout) {
@@ -60,15 +61,9 @@ class RecordActivity2 : LogActivity() {
             }
         }
 
-        val fpsMode = Spinner(this).apply {
-            prompt = "fps mode"
-            setAdapter(
-                ArrayAdapter<String>(
-                    context,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    arrayOf("VFR", "CFR")
-                )
-            )
+        val fpsMode = LabelSpinner(this).apply {
+            setLabel("fps mode")
+            setStringArray(listOf("VFR", "CFR"))
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -85,15 +80,9 @@ class RecordActivity2 : LogActivity() {
             }
         }
 
-        val bitrateMode = Spinner(this).apply {
-            prompt = "bitrate mode"
-            setAdapter(
-                ArrayAdapter<String>(
-                    context,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    arrayOf("CQ", "VBR", "CBR", "CBR-FD")
-                )
-            )
+        val bitrateMode = LabelSpinner(this).apply {
+            setLabel("bitrate mode")
+            setStringArray(listOf("CQ", "VBR", "CBR", "CBR-FD"))
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
