@@ -107,38 +107,24 @@ class RecordActivity2 : LogActivity() {
             GridLayout(this).apply {
                 columnCount = 2
                 orientation = GridLayout.HORIZONTAL
-                addView(videoConfigTitle, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(0, 1f)
-                })
-                addView(widthEdt, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(0, 1f)
-                })
-                addView(heightEdt, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(1, 1f)
-                })
-                addView(videoBitrateEdt, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(0, 1f)
-                })
-                addView(fpsEdt, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(1, 1f)
-                })
-                addView(iFrameIntervalEdt, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(0, 1f)
-                })
-                addView(fpsMode, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(0, 1f)
-                })
-                addView(bitrateMode, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(1, 1f)
-                })
-                addView(startToggle, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(0, 1f)
-                })
-                addView(pauseToggle, GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(1, 1f)
-                })
+                add(videoConfigTitle)
+                add(widthEdt)
+                add(heightEdt, 1)
+                add(videoBitrateEdt)
+                add(fpsEdt, 1)
+                add(iFrameIntervalEdt)
+                add(fpsMode)
+                add(bitrateMode, 1)
+                add(startToggle)
+                add(pauseToggle, 1)
             }, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT
         )
 
+    }
+
+    private fun GridLayout.add(view: View, index: Int = 0) {
+        addView(view, GridLayout.LayoutParams().apply {
+            columnSpec = GridLayout.spec(index, 1f)
+        })
     }
 }
