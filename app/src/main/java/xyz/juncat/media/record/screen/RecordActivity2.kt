@@ -103,10 +103,33 @@ class RecordActivity2 : LogActivity() {
             text = "Video Config"
             setTypeface(Typeface.DEFAULT_BOLD)
         }
+
+        val audioConfigTitle = AppCompatTextView(this).apply {
+            text = "Audio Config"
+            setTypeface(Typeface.DEFAULT_BOLD)
+        }
+
+        val audioSampleRate = LabelSpinner(this).apply {
+            setLabel("sample")
+            setStringArray(listOf("16kHz", "44.1kHz", "48kHz", "64kHz", "88.2kHz", "96kHz"))
+        }
+
+        val audioChannel = LabelSpinner(this).apply {
+            setLabel("channel")
+            setStringArray(listOf("1", "2"))
+        }
+
+        val audioBitrate = LabelEditText(this).apply {
+            setHint("64000")
+            setInputType(EditorInfo.TYPE_CLASS_NUMBER)
+            setTitle("bitrate")
+        }
+
         frameLayout.addView(
             GridLayout(this).apply {
                 columnCount = 2
                 orientation = GridLayout.HORIZONTAL
+                //video
                 add(videoConfigTitle)
                 add(widthEdt)
                 add(heightEdt, 1)
@@ -115,6 +138,13 @@ class RecordActivity2 : LogActivity() {
                 add(iFrameIntervalEdt)
                 add(fpsMode)
                 add(bitrateMode, 1)
+
+                //audio
+                add(audioConfigTitle)
+                add(audioSampleRate)
+                add(audioChannel, 1)
+                add(audioBitrate)
+
                 add(startToggle)
                 add(pauseToggle, 1)
             }, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT
