@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationChannelCompat
@@ -45,6 +46,31 @@ class ScreenRecordService : Service() {
 
     }
     override fun onBind(intent: Intent?): IBinder? {
-        return null
+        return ScreenRecordServiceBinder(this)
+    }
+
+    class ScreenRecordServiceBinder(service: ScreenRecordService): Binder() {
+
+        fun startRecord() {
+
+        }
+
+        fun stopRecord() {
+
+        }
+
+        fun pauseRecord() {
+
+        }
+
+        fun resumeRecord() {
+
+        }
+    }
+
+    companion object {
+
+        const val ACTION_START = "START"
+
     }
 }
