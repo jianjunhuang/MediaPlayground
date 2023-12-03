@@ -82,7 +82,7 @@ class RecordActivity2 : LogActivity() {
 
         val bitrateMode = LabelSpinner(this).apply {
             setLabel("bitrate mode")
-            setStringArray(listOf("CQ", "VBR", "CBR", "CBR-FD"))
+            setStringArray(listOf("VBR", "CQ", "CBR", "CBR-FD"))
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
