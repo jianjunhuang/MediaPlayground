@@ -1,6 +1,8 @@
 package xyz.juncat.media.record.screen
 
+import android.content.Intent
 import android.graphics.Typeface
+import android.os.Build
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
@@ -48,7 +50,14 @@ class RecordActivity2 : LogActivity() {
             textOn = "recording"
             textOff = "stopped"
             setOnCheckedChangeListener { buttonView, isChecked ->
-
+                if (isChecked) {
+                    val intent = Intent(this@RecordActivity2, ScreenRecordService::class.java)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intent)
+                    } else {
+                        startService(intent)
+                    }
+                }
             }
         }
 
