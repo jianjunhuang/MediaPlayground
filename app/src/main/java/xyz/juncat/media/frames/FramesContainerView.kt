@@ -27,7 +27,7 @@ class FramesContainerView : View {
         measureFrames()
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         frameRectF.offsetTo(0f, 0f)
         frameList.forEach {
