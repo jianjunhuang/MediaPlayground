@@ -12,6 +12,7 @@ import android.os.IBinder
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ToggleButton
@@ -148,12 +149,14 @@ class RecordActivity2 : LogActivity() {
             }
         }
 
-        val videoConfigTitle = AppCompatTextView(this).apply {
+        val videoConfigTitle = CheckBox(this).apply {
+            isChecked = true
             text = "Video Config"
             setTypeface(Typeface.DEFAULT_BOLD)
         }
 
-        val audioConfigTitle = AppCompatTextView(this).apply {
+        val audioConfigTitle = CheckBox(this).apply {
+            isChecked = true
             text = "Audio Config"
             setTypeface(Typeface.DEFAULT_BOLD)
         }
