@@ -27,32 +27,10 @@ import xyz.juncat.media.base.widget.LabelSpinner
 
 class RecordActivity2 : LogActivity() {
 
-    private var recordBinder: ScreenRecordService.ScreenRecordServiceBinder? = null
-    private lateinit var mediaProjectionLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mediaProjectionLauncher =
-            registerForActivityResult(object : ActivityResultContract<Intent, Intent>() {
-                override fun createIntent(context: Context, input: Intent): Intent {
-                    return input
-                }
 
-                override fun parseResult(resultCode: Int, intent: Intent?): Intent {
-                    return intent ?: Intent()
-                }
-
-            }) {
-                bindService(intent, object : ServiceConnection {
-                    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                        recordBinder = service as? ScreenRecordService.ScreenRecordServiceBinder
-                    }
-
-                    override fun onServiceDisconnected(name: ComponentName?) {
-                    }
-
-                }, Context.BIND_IMPORTANT)
-            }
     }
 
     override fun initActionView(frameLayout: FrameLayout) {
@@ -92,9 +70,6 @@ class RecordActivity2 : LogActivity() {
             setOnCheckedChangeListener { buttonView, isChecked ->
                 //TODO check audio permission
                 if (isChecked) {
-                    val projectionManager =
-                        getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
-                    mediaProjectionLauncher.launch(projectionManager.createScreenCaptureIntent())
 
                 } else {
                     stopService(intent)
