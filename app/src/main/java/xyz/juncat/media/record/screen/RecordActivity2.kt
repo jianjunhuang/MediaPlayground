@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Typeface
+import android.media.projection.MediaProjectionManager
 import android.os.Build
+import android.os.Bundle
 import android.os.IBinder
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -13,7 +15,11 @@ import android.widget.AdapterView
 import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ToggleButton
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.getSystemService
 import xyz.juncat.media.base.LogActivity
 import xyz.juncat.media.base.widget.LabelEditText
 import xyz.juncat.media.base.widget.LabelSpinner
@@ -21,6 +27,32 @@ import xyz.juncat.media.base.widget.LabelSpinner
 class RecordActivity2 : LogActivity() {
 
     private var recordBinder: ScreenRecordService.ScreenRecordServiceBinder? = null
+    private lateinit var mediaProjectionLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mediaProjectionLauncher =
+            registerForActivityResult(object : ActivityResultContract<Intent, Intent>() {
+                override fun createIntent(context: Context, input: Intent): Intent {
+                    return input
+                }
+
+                override fun parseResult(resultCode: Int, intent: Intent?): Intent {
+                    return intent ?: Intent()
+                }
+
+            }) {
+                bindService(intent, object : ServiceConnection {
+                    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                        recordBinder = service as? ScreenRecordService.ScreenRecordServiceBinder
+                    }
+
+                    override fun onServiceDisconnected(name: ComponentName?) {
+                    }
+
+                }, Context.BIND_IMPORTANT)
+            }
+    }
 
     override fun initActionView(frameLayout: FrameLayout) {
         val widthEdt = LabelEditText(this).apply {
@@ -57,19 +89,12 @@ class RecordActivity2 : LogActivity() {
             textOn = "recording"
             textOff = "stopped"
             setOnCheckedChangeListener { buttonView, isChecked ->
-                val intent = Intent(this@RecordActivity2, ScreenRecordService::class.java).apply {
-                    action = ScreenRecordService.ACTION_START
-                }
+                //TODO check audio permission
                 if (isChecked) {
-                    bindService(intent, object: ServiceConnection{
-                        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                    val projectionManager =
+                        getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+                    mediaProjectionLauncher.launch(projectionManager.createScreenCaptureIntent())
 
-                        }
-
-                        override fun onServiceDisconnected(name: ComponentName?) {
-                        }
-
-                    }, Context.BIND_IMPORTANT)
                 } else {
                     stopService(intent)
                 }

@@ -28,7 +28,10 @@ class ScreenRecordService : Service() {
     }
 
     private fun startForeground() {
-        val channel = NotificationChannelCompat.Builder("ScreenRecord", NotificationManagerCompat.IMPORTANCE_LOW)
+        val channel = NotificationChannelCompat.Builder(
+            "ScreenRecord",
+            NotificationManagerCompat.IMPORTANCE_LOW
+        )
             .setName("ScreenRecordChannel")//if Name is empty, it will throw IllegalArgumentException
             .build()
         NotificationManagerCompat.from(this).createNotificationChannel(channel)
@@ -45,13 +48,14 @@ class ScreenRecordService : Service() {
         )
 
     }
+
     override fun onBind(intent: Intent?): IBinder? {
         return ScreenRecordServiceBinder(this)
     }
 
-    class ScreenRecordServiceBinder(service: ScreenRecordService): Binder() {
+    class ScreenRecordServiceBinder(service: ScreenRecordService) : Binder() {
 
-        fun startRecord() {
+        fun startRecord(mediaProjectionIntent: Intent) {
 
         }
 
