@@ -62,6 +62,9 @@ class ScreenRecordService : Service() {
             audioConfig: AudioConfig?,
             mediaProjectionIntent: Intent?
         ) {
+            //create video encoder
+            //create audio encoder
+            //create muxer
 
         }
 
