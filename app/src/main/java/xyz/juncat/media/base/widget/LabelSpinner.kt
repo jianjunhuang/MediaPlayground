@@ -48,4 +48,8 @@ class LabelSpinner : LinearLayout {
             field = value
         }
 
+    override fun setEnabled(enabled: Boolean) {
+        super.setEnabled(enabled)
+        spinner.isEnabled = enabled
+    }
 }

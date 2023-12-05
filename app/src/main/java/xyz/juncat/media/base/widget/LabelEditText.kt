@@ -76,4 +76,9 @@ class LabelEditText : LinearLayout {
     fun setInputType(inputType: Int) {
         editText.inputType = inputType
     }
+
+    override fun setEnabled(enable: Boolean) {
+        super.setEnabled(enable)
+        editText.isEnabled = enable
+    }
 }
