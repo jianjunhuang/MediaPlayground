@@ -24,40 +24,46 @@ import androidx.core.content.getSystemService
 import xyz.juncat.media.base.LogActivity
 import xyz.juncat.media.base.widget.LabelEditText
 import xyz.juncat.media.base.widget.LabelSpinner
+import xyz.juncat.media.record.screen.config.VideoConfig
+import java.lang.ref.WeakReference
 
 class RecordActivity2 : LogActivity() {
 
+    private lateinit var recordStarter: RecordStarter
+    private val configurationViews = mutableListOf<View>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        recordStarter = RecordStarter(this)
+        recordStarter.init()
     }
 
     override fun initActionView(frameLayout: FrameLayout) {
-        val widthEdt = LabelEditText(this).apply {
+        if (configurationViews.isNotEmpty()) return
+        val widthEdt = LabelEditText(this).stash {
             setInputType(EditorInfo.TYPE_CLASS_NUMBER)
             setHint("720")
             setTitle("width")
         }
-        val heightEdt = LabelEditText(this).apply {
+        val heightEdt = LabelEditText(this).stash {
             setInputType(EditorInfo.TYPE_CLASS_NUMBER)
             setHint("1080")
             setTitle("height")
         }
 
-        val videoBitrateEdt = LabelEditText(this).apply {
+        val videoBitrateEdt = LabelEditText(this).stash {
             setInputType(EditorInfo.TYPE_CLASS_NUMBER)
             setHint("6000")
             setTitle("video bitrate")
         }
 
-        val fpsEdt = LabelEditText(this).apply {
+        val fpsEdt = LabelEditText(this).stash {
             setInputType(EditorInfo.TYPE_CLASS_NUMBER)
             setHint("30")
             setTitle("fps")
         }
 
-        val iFrameIntervalEdt = LabelEditText(this).apply {
+        val iFrameIntervalEdt = LabelEditText(this).stash {
             setInputType(EditorInfo.TYPE_CLASS_NUMBER)
             setHint("1")
             setTitle("iFrameInterval")
@@ -68,9 +74,10 @@ class RecordActivity2 : LogActivity() {
             textOn = "recording"
             textOff = "stopped"
             setOnCheckedChangeListener { buttonView, isChecked ->
-                //TODO check audio permission
+                //disable all configure view
+                setConfigurable(!isChecked)
                 if (isChecked) {
-
+                    //covert all config to config object
                 } else {
                     stopService(intent)
                 }
@@ -86,7 +93,7 @@ class RecordActivity2 : LogActivity() {
             }
         }
 
-        val fpsMode = LabelSpinner(this).apply {
+        val fpsMode = LabelSpinner(this).stash {
             setLabel("fps mode")
             setStringArray(listOf("VFR", "CFR"))
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -105,7 +112,7 @@ class RecordActivity2 : LogActivity() {
             }
         }
 
-        val bitrateMode = LabelSpinner(this).apply {
+        val bitrateMode = LabelSpinner(this).stash {
             setLabel("bitrate mode")
             setStringArray(listOf("VBR", "CQ", "CBR", "CBR-FD"))
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -124,29 +131,29 @@ class RecordActivity2 : LogActivity() {
             }
         }
 
-        val videoConfigTitle = CheckBox(this).apply {
+        val videoConfigTitle = CheckBox(this).stash {
             isChecked = true
             text = "Video Config"
             setTypeface(Typeface.DEFAULT_BOLD)
         }
 
-        val audioConfigTitle = CheckBox(this).apply {
+        val audioConfigTitle = CheckBox(this).stash {
             isChecked = true
             text = "Audio Config"
             setTypeface(Typeface.DEFAULT_BOLD)
         }
 
-        val audioSampleRate = LabelSpinner(this).apply {
+        val audioSampleRate = LabelSpinner(this).stash {
             setLabel("sample")
             setStringArray(listOf("16kHz", "44.1kHz", "48kHz", "64kHz", "88.2kHz", "96kHz"))
         }
 
-        val audioChannel = LabelSpinner(this).apply {
+        val audioChannel = LabelSpinner(this).stash {
             setLabel("channel")
             setStringArray(listOf("1", "2"))
         }
 
-        val audioBitrate = LabelEditText(this).apply {
+        val audioBitrate = LabelEditText(this).stash {
             setHint("64000")
             setInputType(EditorInfo.TYPE_CLASS_NUMBER)
             setTitle("bitrate")
@@ -183,5 +190,21 @@ class RecordActivity2 : LogActivity() {
         addView(view, GridLayout.LayoutParams().apply {
             columnSpec = GridLayout.spec(index, 1f)
         })
+    }
+
+    private inline fun <T : View> T.stash(block: T.() -> Unit): T {
+        configurationViews.add(this)
+        block()
+        return this
+    }
+
+    private fun setConfigurable(configurable: Boolean) {
+        configurationViews.forEach {
+            it.isEnabled = configurable
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
