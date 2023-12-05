@@ -52,4 +52,7 @@ class LabelSpinner : LinearLayout {
         super.setEnabled(enabled)
         spinner.isEnabled = enabled
     }
+
+    val selectedItemPosition
+        get() = spinner.selectedItemPosition
 }

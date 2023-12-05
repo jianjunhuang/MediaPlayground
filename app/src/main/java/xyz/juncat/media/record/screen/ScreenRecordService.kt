@@ -12,6 +12,8 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.ServiceCompat
+import xyz.juncat.media.record.screen.config.AudioConfig
+import xyz.juncat.media.record.screen.config.VideoConfig
 
 /**
  * foreground service :https://developer.android.com/guide/components/foreground-services
@@ -55,7 +57,11 @@ class ScreenRecordService : Service() {
 
     class ScreenRecordServiceBinder(service: ScreenRecordService) : Binder() {
 
-        fun startRecord(mediaProjectionIntent: Intent) {
+        fun startRecord(
+            videoConfig: VideoConfig?,
+            audioConfig: AudioConfig?,
+            mediaProjectionIntent: Intent?
+        ) {
 
         }
 

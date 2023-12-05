@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import xyz.juncat.media.record.screen.config.AudioConfig
 import xyz.juncat.media.record.screen.config.VideoConfig
+import java.lang.IllegalArgumentException
 
 class RecordStarter(private val activity: RecordActivity2) {
 
@@ -41,20 +42,16 @@ class RecordStarter(private val activity: RecordActivity2) {
                 }
 
             }) {
-
-//                activity.bindService(it, object : ServiceConnection {
-//                    override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-//                        recordBinder = service as? ScreenRecordService.ScreenRecordServiceBinder
-//                    }
-//
-//                    override fun onServiceDisconnected(name: ComponentName?) {
-//                    }
-//
-//                }, Context.BIND_IMPORTANT)
+                start(videoConfig, audioConfig, it)
             }
     }
 
     fun start(videoConfig: VideoConfig?, audioConfig: AudioConfig?) {
+        if (audioConfig == null && videoConfig == null) {
+            throw IllegalArgumentException("audioConfig and videoConfig can't be null at the same time")
+        }
+        this.audioConfig = audioConfig
+        this.videoConfig = videoConfig
         if (audioConfig != null) {
             if (PackageManager.PERMISSION_GRANTED != ContextCompat.checkSelfPermission(
                     activity,
@@ -62,8 +59,8 @@ class RecordStarter(private val activity: RecordActivity2) {
                 )
             ) {
                 permissionRequestLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                return
             }
-            return
         }
 
         if (videoConfig != null) {
@@ -71,5 +68,23 @@ class RecordStarter(private val activity: RecordActivity2) {
                 activity.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
             mediaProjectionLauncher.launch(projectionManager.createScreenCaptureIntent())
         }
+    }
+
+    private fun start(
+        videoConfig: VideoConfig?,
+        audioConfig: AudioConfig?,
+        mediaProjectionIntent: Intent?
+    ) {
+        val serviceIntent = Intent(activity, ScreenRecordService::class.java)
+        activity.bindService(serviceIntent, object : ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                recordBinder = service as? ScreenRecordService.ScreenRecordServiceBinder
+                recordBinder?.startRecord(videoConfig, audioConfig, mediaProjectionIntent)
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+            }
+
+        }, Context.BIND_IMPORTANT)
     }
 }
