@@ -7,7 +7,7 @@ import kotlin.concurrent.Volatile
 
 abstract class MediaEncoder(muxer: MediaMuxer) : Runnable {
 
-    protected lateinit var bufferInfo: BufferInfo
+    protected var bufferInfo: BufferInfo
 
     protected val mediaMuxer = WeakReference<MediaMuxer>(muxer)
 
