@@ -4,7 +4,9 @@ import android.media.MediaCodec
 import android.media.MediaFormat
 import java.nio.ByteBuffer
 
-abstract class MediaMuxer {
+abstract class MediaMuxer : Object() {
+
+    var isStarted: Boolean = false
 
     abstract fun startRecording()
 
@@ -22,5 +24,9 @@ abstract class MediaMuxer {
 
     abstract fun addTrack(format: MediaFormat): Int
 
-    abstract fun writeSampleData(trackIndex: Int, byteBuf: ByteBuffer, bufferInfo: MediaCodec.BufferInfo)
+    abstract fun writeSampleData(
+        trackIndex: Int,
+        byteBuf: ByteBuffer,
+        bufferInfo: MediaCodec.BufferInfo
+    )
 }
