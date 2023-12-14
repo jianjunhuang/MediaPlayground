@@ -23,7 +23,10 @@ import xyz.juncat.media.base.LogActivity
 import xyz.juncat.media.base.Utils
 import java.io.File
 import java.io.FileWriter
+import java.io.IOException
+import java.util.Vector
 import kotlin.coroutines.resume
+
 
 class FFmpegTestPlayGroundActivity : LogActivity() {
 
@@ -35,7 +38,7 @@ class FFmpegTestPlayGroundActivity : LogActivity() {
         frameLayout.addActionButton(object : OnClickListener {
             override fun onClick(v: View?) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    testOnline()
+                    selectVideo()
                 }
             }
         })
@@ -462,7 +465,43 @@ class FFmpegTestPlayGroundActivity : LogActivity() {
                     """.trimIndent()
             )
         }
-    }
 
+        log("max: ${getMaxCodecInstanceByName("video/avc")}")
+
+    }
+    private fun getMaxCodecInstanceByName(name: String?): Int {
+        val codecs = Vector<MediaCodec>()
+        val format = MediaFormat.createVideoFormat("video/avc", 1920, 1080)
+        var codec: MediaCodec? = null
+        for (i in 0 until 16) {
+            try {
+                codec = MediaCodec.createDecoderByType(MediaFormat.MIMETYPE_VIDEO_AVC)
+                codec.configure(format, null, null, 0)
+                codec.start()
+                codecs.add(codec)
+                codec = null
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+                break
+            } catch (e: IOException) {
+                e.printStackTrace()
+                break
+            } catch (e: Exception) {
+                e.printStackTrace()
+                break
+            } finally {
+                if (codec != null) {
+                    codec.release()
+                    codec = null
+                }
+            }
+        }
+        val actualMax = codecs.size
+        for (i in 0 until actualMax) {
+            codecs[i].release()
+        }
+        codecs.clear()
+        return actualMax
+    }
 
 }

@@ -10,6 +10,7 @@ import xyz.juncat.media.convert.ConvertActivity
 import xyz.juncat.media.cut.VideoCutActivity
 import xyz.juncat.media.cut.VideoTrimByCodecActivity
 import xyz.juncat.media.databinding.ActivityMainBinding
+import xyz.juncat.media.decode.DecoderActivity
 import xyz.juncat.media.edit.EditCutActivity
 import xyz.juncat.media.ffmpeg.FFmpegTestPlayGroundActivity
 import xyz.juncat.media.frames.FramesExtractActivity
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         R.id.btn_mp4_edit to EditCutActivity::class.java,
         R.id.btn_convert to ConvertActivity::class.java,
         R.id.btn_video_cut to VideoCutActivity::class.java,
+        R.id.btn_decoder to DecoderActivity::class.java,
     )
 
     private val intentMapper = mapOf(

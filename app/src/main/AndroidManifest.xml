@@ -45,6 +45,7 @@
         <activity android:name="xyz.juncat.media.record.SSRCActivity" />
         <activity android:name="xyz.juncat.media.record.AACTestActivity" />
         <activity android:name="xyz.juncat.media.record.screen.RecordActivity2" />
+        <activity android:name=".decode.DecoderActivity" />
 
         <service
             android:name="xyz.juncat.media.record.screen.RecordActivity$ProjectionService"

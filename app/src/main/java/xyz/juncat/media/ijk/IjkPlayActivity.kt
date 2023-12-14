@@ -1,26 +1,32 @@
 package xyz.juncat.media.ijk
 
 import android.graphics.SurfaceTexture
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.Surface
 import android.view.TextureView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
-import tv.danmaku.ijk.media.player.IMediaPlayer
 import tv.danmaku.ijk.media.player.IjkMediaPlayer
 import xyz.juncat.media.databinding.ActivityIjkPlayerBinding
-import java.io.File
 
 class IjkPlayActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIjkPlayerBinding
-    private var player: IMediaPlayer? = null
+
+    private var ijkPlayer: IjkMediaPlayer? = null
+    private var mediaPlayer: MediaPlayer? = null
     private var playerSurface: Surface? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityIjkPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.btnIjk.setOnClickListener {
+            changePlayer(Player.IJK)
+        }
+        binding.btnMediaPlay.setOnClickListener {
+            changePlayer(Player.MEDIA)
+        }
         binding.videoView.surfaceTextureListener = object : TextureView.SurfaceTextureListener {
             override fun onSurfaceTextureAvailable(
                 surface: SurfaceTexture,
@@ -28,16 +34,7 @@ class IjkPlayActivity : AppCompatActivity() {
                 height: Int
             ) {
 
-                val outputFolder = File(externalCacheDir?.absolutePath, "m3u8_fast")
-                val outputPath = outputFolder.absolutePath + "/output.m3u8"
-                intent.data?.let {
-                    player = IjkMediaPlayer()
-                    player?.setDataSource(this@IjkPlayActivity, outputPath.toUri())
-                    playerSurface = Surface(surface)
-                    player?.setSurface(playerSurface)
-                    player?.isLooping = true
-                    player?.prepareAsync()
-                }
+                playerSurface = Surface(surface)
             }
 
             override fun onSurfaceTextureSizeChanged(
@@ -48,7 +45,8 @@ class IjkPlayActivity : AppCompatActivity() {
             }
 
             override fun onSurfaceTextureDestroyed(surface: SurfaceTexture): Boolean {
-                player?.release()
+                ijkPlayer?.release()
+                mediaPlayer?.release()
                 playerSurface?.release()
                 return true
             }
@@ -58,4 +56,32 @@ class IjkPlayActivity : AppCompatActivity() {
         }
     }
 
+    private fun changePlayer(player: Player) {
+        ijkPlayer?.stop()
+        ijkPlayer?.release()
+
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        intent.data?.let {
+            if (player == Player.IJK) {
+                ijkPlayer = IjkMediaPlayer()
+                ijkPlayer?.setOption(IjkMediaPlayer.OPT_CATEGORY_PLAYER, "mediacodec", 1)
+                ijkPlayer?.setDataSource(this@IjkPlayActivity, it)
+                ijkPlayer?.setSurface(playerSurface)
+                ijkPlayer?.isLooping = true
+                ijkPlayer?.prepareAsync()
+            } else {
+                mediaPlayer = MediaPlayer()
+                mediaPlayer?.setDataSource(this@IjkPlayActivity, it)
+                mediaPlayer?.setSurface(playerSurface)
+                mediaPlayer?.isLooping = true
+                mediaPlayer?.prepare()
+                mediaPlayer?.start()
+            }
+        }
+    }
+
+    private enum class Player {
+        IJK, MEDIA
+    }
 }

@@ -112,6 +112,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="record 2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_decoder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="decoder" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>
