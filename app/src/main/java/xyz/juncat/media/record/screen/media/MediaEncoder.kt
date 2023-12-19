@@ -149,34 +149,43 @@ abstract class MediaEncoder(muxer: MediaMuxer) : Runnable {
         return true
     }
 
-    protected fun onBufferEncoded(
+    protected open fun onBufferEncoded(
         trackIndex: Int,
         encodedData: ByteBuffer,
         bufferInfo: BufferInfo
     ): Boolean = false
 
-    protected fun prepare() {
+    protected open fun prepare() {
 
     }
 
-    protected fun startRecording() {
-
+    protected open fun startRecording() {
+        isRequestPause = false
+        isRequestStop = false
+        isCapturing = true
     }
 
     protected fun stopRecording() {
-
+        isRequestStop = true
+        isCapturing = false
     }
 
     protected fun pauseRecording() {
-
+        if (!isCapturing) {
+            return
+        }
+        isRequestPause = true
     }
 
     protected fun resumeRecording() {
-
+        if (!isCapturing) {
+            return
+        }
+        isRequestPause = false
     }
 
     protected fun release() {
-
+        mediaCodec?.release()
     }
 
     companion object {

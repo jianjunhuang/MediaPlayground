@@ -3,8 +3,11 @@ package xyz.juncat.media.record.screen
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ServiceInfo
+import android.media.projection.MediaProjection
+import android.media.projection.MediaProjectionManager
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -55,13 +58,18 @@ class ScreenRecordService : Service() {
         return ScreenRecordServiceBinder(this)
     }
 
-    class ScreenRecordServiceBinder(service: ScreenRecordService) : Binder() {
+    class ScreenRecordServiceBinder(private val service: ScreenRecordService) : Binder() {
 
         fun startRecord(
             videoConfig: VideoConfig?,
             audioConfig: AudioConfig?,
+            mediaProjectionResultCode: Int?,
             mediaProjectionIntent: Intent?
         ) {
+            if (mediaProjectionResultCode != null && mediaProjectionIntent != null) {
+                val mpm = service.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
+                val projection = mpm.getMediaProjection(mediaProjectionResultCode, mediaProjectionIntent)
+            }
             //create video encoder
             //create audio encoder
             //create muxer
