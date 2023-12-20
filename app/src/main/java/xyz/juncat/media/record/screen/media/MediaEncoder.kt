@@ -2,15 +2,16 @@ package xyz.juncat.media.record.screen.media
 
 import android.media.MediaCodec
 import android.media.MediaCodec.BufferInfo
+import android.util.Log
 import java.lang.ref.WeakReference
 import java.nio.ByteBuffer
 import kotlin.concurrent.Volatile
 
-abstract class MediaEncoder(muxer: MediaMuxer) : Runnable {
+abstract class MediaEncoder(muxer: Muxer) : Runnable {
 
     protected var bufferInfo: BufferInfo
 
-    protected val mediaMuxer = WeakReference<MediaMuxer>(muxer)
+    protected val mediaMuxer = WeakReference<Muxer>(muxer)
 
     @Volatile
     protected var isRequestPause = false
@@ -60,6 +61,7 @@ abstract class MediaEncoder(muxer: MediaMuxer) : Runnable {
         while (isCapturing) {
             val encoderStatus = mediaCodec?.dequeueOutputBuffer(bufferInfo, TIMEOUT)
                 ?: MediaCodec.INFO_TRY_AGAIN_LATER
+            Log.i(TAG, "drain: status = $encoderStatus")
             when (encoderStatus) {
                 MediaCodec.INFO_TRY_AGAIN_LATER -> {
                     if (!isEOS && ++retryCount > 5) {
@@ -68,7 +70,7 @@ abstract class MediaEncoder(muxer: MediaMuxer) : Runnable {
                 }
 
                 MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
-
+                    Log.i(TAG, "drain: INFO_OUTPUT_FORMAT_CHANGED ")
                     val muxer = mediaMuxer.get() ?: throw IllegalArgumentException("muxer is NULL")
                     mediaCodec?.outputFormat?.let {
                         trackIndex = muxer.addTrack(it)
@@ -76,7 +78,7 @@ abstract class MediaEncoder(muxer: MediaMuxer) : Runnable {
 
                     if (!muxer.start()) {
                         synchronized(muxer) {
-                            while (!muxer.isStarted) {
+                            while (!muxer.start()) {
                                 try {
                                     muxer.wait(100)
                                 } catch (e: InterruptedException) {
@@ -155,37 +157,39 @@ abstract class MediaEncoder(muxer: MediaMuxer) : Runnable {
         bufferInfo: BufferInfo
     ): Boolean = false
 
-    protected open fun prepare() {
+    open fun prepare() {
 
     }
 
-    protected open fun startRecording() {
+    open fun startRecording() {
         isRequestPause = false
         isRequestStop = false
         isCapturing = true
     }
 
-    protected fun stopRecording() {
+    open fun stopRecording() {
         isRequestStop = true
         isCapturing = false
     }
 
-    protected fun pauseRecording() {
+    open fun pauseRecording() {
         if (!isCapturing) {
             return
         }
         isRequestPause = true
     }
 
-    protected fun resumeRecording() {
+    open fun resumeRecording() {
         if (!isCapturing) {
             return
         }
         isRequestPause = false
     }
 
-    protected fun release() {
+    open fun release() {
+        mediaCodec?.stop()
         mediaCodec?.release()
+        mediaMuxer.get()?.stop()
     }
 
     companion object {

@@ -169,7 +169,8 @@ class RecordActivity2 : LogActivity() {
                     }
 
                 } else {
-                    stopService(intent)
+                    recordStarter.stop()
+//                    stopService(intent)
                 }
             }
         }

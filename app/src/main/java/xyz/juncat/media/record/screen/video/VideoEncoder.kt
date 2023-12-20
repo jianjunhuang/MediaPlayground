@@ -8,14 +8,13 @@ import android.media.projection.MediaProjection
 import xyz.juncat.media.record.screen.config.VideoConfig
 import xyz.juncat.media.record.screen.config.value
 import xyz.juncat.media.record.screen.media.MediaEncoder
-import xyz.juncat.media.record.screen.media.MediaMuxer
+import xyz.juncat.media.record.screen.media.Muxer
 
 class VideoEncoder(
-    muxer: MediaMuxer,
+    muxer: Muxer,
     private val config: VideoConfig,
     private val projection: MediaProjection
 ) : MediaEncoder(muxer) {
-
 
     override fun prepare() {
         super.prepare()
@@ -35,6 +34,9 @@ class VideoEncoder(
                 setInteger(
                     MediaFormat.KEY_BITRATE_MODE, config.bitrateMode.value
                 )
+                setInteger(
+                    MediaFormat.KEY_FRAME_RATE, config.fps
+                )
             }
         mediaCodec?.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         projection.createVirtualDisplay(
@@ -42,7 +44,7 @@ class VideoEncoder(
             config.width,
             config.height,
             2,
-            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,//TODO 待扩展
             mediaCodec?.createInputSurface(),
             //surface
             null,

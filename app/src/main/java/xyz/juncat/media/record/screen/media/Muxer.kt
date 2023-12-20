@@ -4,7 +4,7 @@ import android.media.MediaCodec
 import android.media.MediaFormat
 import java.nio.ByteBuffer
 
-abstract class MediaMuxer : Object() {
+abstract class Muxer : Object() {
 
     var isStarted: Boolean = false
 
@@ -29,4 +29,7 @@ abstract class MediaMuxer : Object() {
         byteBuf: ByteBuffer,
         bufferInfo: MediaCodec.BufferInfo
     )
+
+    abstract fun release()
+    abstract fun prepare()
 }

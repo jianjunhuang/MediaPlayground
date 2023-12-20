@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.media.projection.MediaProjectionManager
+import android.os.Build
 import android.os.IBinder
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContract
@@ -38,11 +39,13 @@ class RecordStarter(private val activity: RecordActivity2) {
                 }
 
                 override fun parseResult(resultCode: Int, intent: Intent?): Intent {
-                    return intent ?: Intent()
+                    return intent?.apply {
+                        putExtra("result_code", resultCode)
+                    } ?: Intent()
                 }
 
             }) {
-                start(videoConfig, audioConfig, it)
+                start(videoConfig, audioConfig, it.getIntExtra("result_code", 0), it)
             }
     }
 
@@ -73,18 +76,28 @@ class RecordStarter(private val activity: RecordActivity2) {
     private fun start(
         videoConfig: VideoConfig?,
         audioConfig: AudioConfig?,
+        mediaProjectionResultCode: Int,
         mediaProjectionIntent: Intent?
     ) {
         val serviceIntent = Intent(activity, ScreenRecordService::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity.startForegroundService(serviceIntent)
+        } else {
+            activity.startService(serviceIntent)
+        }
         activity.bindService(serviceIntent, object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 recordBinder = service as? ScreenRecordService.ScreenRecordServiceBinder
-                recordBinder?.startRecord(videoConfig, audioConfig, mediaProjectionIntent)
+                recordBinder?.prepare(videoConfig, audioConfig, mediaProjectionResultCode, mediaProjectionIntent)
             }
 
             override fun onServiceDisconnected(name: ComponentName?) {
             }
 
-        }, Context.BIND_IMPORTANT)
+        }, Context.BIND_AUTO_CREATE)
+    }
+
+    fun stop() {
+        recordBinder?.stopRecord()
     }
 }
