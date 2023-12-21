@@ -34,6 +34,7 @@ class VideoEncoder(
                 setInteger(
                     MediaFormat.KEY_BITRATE_MODE, config.bitrateMode.value
                 )
+                //MUST. WHY?
                 setInteger(
                     MediaFormat.KEY_FRAME_RATE, config.fps
                 )
@@ -53,4 +54,13 @@ class VideoEncoder(
         mediaCodec?.start()
     }
 
+    override fun signalEndOfInputStream() {
+        mediaCodec?.signalEndOfInputStream()
+        isEOS = true
+    }
+
+    override fun stopRecording() {
+        super.stopRecording()
+        projection.stop()
+    }
 }

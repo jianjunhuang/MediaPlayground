@@ -54,6 +54,7 @@ class MP4Muxer(path: String) : Muxer() {
 
     override fun stop() {
         muxer.stop()
+        muxer.release()
     }
 
     override fun addTrack(format: MediaFormat): Int {

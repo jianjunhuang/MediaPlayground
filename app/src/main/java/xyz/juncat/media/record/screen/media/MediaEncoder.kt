@@ -61,7 +61,6 @@ abstract class MediaEncoder(muxer: Muxer) : Runnable {
         while (isCapturing) {
             val encoderStatus = mediaCodec?.dequeueOutputBuffer(bufferInfo, TIMEOUT)
                 ?: MediaCodec.INFO_TRY_AGAIN_LATER
-            Log.i(TAG, "drain: status = $encoderStatus")
             when (encoderStatus) {
                 MediaCodec.INFO_TRY_AGAIN_LATER -> {
                     if (!isEOS && ++retryCount > 5) {
@@ -105,6 +104,7 @@ abstract class MediaEncoder(muxer: Muxer) : Runnable {
                     if (bufferInfo.size != 0) {
                         retryCount = 0
                         if (!onBufferEncoded(trackIndex, encodedData, bufferInfo)) {
+                            bufferInfo.presentationTimeUs = getPTS()
                             mediaMuxer.get()?.writeSampleData(trackIndex, encodedData, bufferInfo)
                         }
                     }
@@ -120,7 +120,11 @@ abstract class MediaEncoder(muxer: Muxer) : Runnable {
         }
     }
 
-    private fun signalEndOfInputStream() {
+    open fun getPTS(): Long {
+        return System.nanoTime() / 1000L
+    }
+
+    protected open fun signalEndOfInputStream() {
         doEncode(null, -1 ,0)
     }
 
