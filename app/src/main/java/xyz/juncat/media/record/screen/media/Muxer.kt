@@ -18,6 +18,8 @@ abstract class Muxer : Object() {
 
     abstract fun addEncoder(encoder: MediaEncoder)
 
+    abstract fun removeEncoder(encoder: MediaEncoder)
+
     abstract fun start(): Boolean
 
     abstract fun stop()
@@ -30,6 +32,5 @@ abstract class Muxer : Object() {
         bufferInfo: MediaCodec.BufferInfo
     )
 
-    abstract fun release()
     abstract fun prepare()
 }
