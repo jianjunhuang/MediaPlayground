@@ -37,22 +37,25 @@ abstract class MediaEncoder(muxer: Muxer) : Runnable {
     }
 
     override fun run() {
-
-        while (true) {
-            if (isRequestStop) {
-                //drain remain
+        try {
+            while (true) {
+                if (isRequestStop) {
+                    //drain remain
+                    drain()
+                    //EOS
+                    signalEndOfInputStream()
+                    drain()
+                    break
+                }
                 drain()
-                //EOS
-                signalEndOfInputStream()
-                drain()
-                release()
-                break
             }
-            drain()
+            isRequestStop = true
+            isCapturing = false
+        } catch (t: Throwable) {
+            Log.e(TAG, "drain: ", t)
+        } finally {
+            release()
         }
-        isRequestStop = true
-        isCapturing = false
-        //TODO onStop
     }
 
     protected fun drain() {
@@ -193,6 +196,7 @@ abstract class MediaEncoder(muxer: Muxer) : Runnable {
     open fun release() {
         mediaCodec?.stop()
         mediaCodec?.release()
+        mediaMuxer.get()?.removeEncoder(this)
         mediaMuxer.get()?.stop()
     }
 

@@ -43,6 +43,10 @@ class MP4Muxer(path: String) : Muxer() {
         encoders.add(encoder)
     }
 
+    override fun removeEncoder(encoder: MediaEncoder) {
+        encoders.remove(encoder)
+    }
+
     override fun start(): Boolean {
         if (trackCount == encoders.size) {
             Log.i(TAG, "start: ")
@@ -53,6 +57,10 @@ class MP4Muxer(path: String) : Muxer() {
     }
 
     override fun stop() {
+        if (encoders.isNotEmpty()) {
+            Log.i(TAG, "stop: failed, encoders is not empty.")
+            return
+        }
         muxer.stop()
         muxer.release()
     }
@@ -68,12 +76,6 @@ class MP4Muxer(path: String) : Muxer() {
         bufferInfo: MediaCodec.BufferInfo
     ) {
         muxer.writeSampleData(trackIndex, byteBuf, bufferInfo)
-    }
-
-    override fun release() {
-        //TODO wait all encoder release
-        muxer.stop()
-        muxer.release()
     }
 
     override fun prepare() {
