@@ -10,10 +10,9 @@ import xyz.juncat.media.record.screen.config.value
 import xyz.juncat.media.record.screen.media.MediaEncoder
 import xyz.juncat.media.record.screen.media.Muxer
 
-class VideoEncoder(
+abstract class BaseVideoEncoder(
     muxer: Muxer,
     private val config: VideoConfig,
-    private val projection: MediaProjection
 ) : MediaEncoder(muxer) {
 
     override fun prepare() {
@@ -40,27 +39,15 @@ class VideoEncoder(
                 )
             }
         mediaCodec?.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
-        projection.createVirtualDisplay(
-            "test",
-            config.width,
-            config.height,
-            2,
-            DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,//TODO 待扩展
-            mediaCodec?.createInputSurface(),
-            //surface
-            null,
-            null
-        )
+        bindInputSurface()
         mediaCodec?.start()
     }
+
+    abstract fun bindInputSurface()
 
     override fun signalEndOfInputStream() {
         mediaCodec?.signalEndOfInputStream()
         isEOS = true
     }
 
-    override fun stopRecording() {
-        super.stopRecording()
-        projection.stop()
-    }
 }

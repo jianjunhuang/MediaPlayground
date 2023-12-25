@@ -15,7 +15,8 @@ import androidx.core.app.ServiceCompat
 import xyz.juncat.media.record.screen.config.AudioConfig
 import xyz.juncat.media.record.screen.config.VideoConfig
 import xyz.juncat.media.record.screen.media.MP4Muxer
-import xyz.juncat.media.record.screen.video.VideoEncoder
+import xyz.juncat.media.record.screen.video.BaseVideoEncoder
+import xyz.juncat.media.record.screen.video.ScreenVideoEncoder
 import java.io.File
 
 /**
@@ -60,7 +61,7 @@ class ScreenRecordService : Service() {
 
     class ScreenRecordServiceBinder(private val service: ScreenRecordService) : Binder() {
 
-        private var videoEncoder: VideoEncoder? = null
+        private var videoEncoder: BaseVideoEncoder? = null
 
         private val targetFile = File(service.externalCacheDir?.path + "/record/record.mp4")
 
@@ -87,7 +88,7 @@ class ScreenRecordService : Service() {
                 val projection =
                     mpm.getMediaProjection(mediaProjectionResultCode, mediaProjectionIntent)
                 if (videoConfig != null) {
-                    videoEncoder = VideoEncoder(muxer, videoConfig, projection)
+                    videoEncoder = ScreenVideoEncoder(muxer, videoConfig, projection)
                 }
                 muxer.prepare()
             }
